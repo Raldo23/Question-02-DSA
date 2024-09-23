@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+// Message definitions for products and users
+message Product {
+    string name = 1;
+    string description = 2;
+    float price = 3;
+    int32 stock_quantity = 4;
+    string sku = 5;
+    string status = 6; // "available" or "out_of_stock"
+}
+
+message User {
+    string userId = 1;
+    string name = 2;
+    string accountType = 3; // "customer" or "admin"
+}
+
+message CartItem {
+    string userId = 1;
+    string sku = 2;
+}
+
+message Order {
+    string userId = 1;
+    repeated Product products = 2;
+}
+
+message ProductList {
+    repeated Product products = 1;
+}
+
+// Service definition for the online shopping system
+service ShoppingService {
+    // Admin operations
+    rpc addProduct(Product) returns (google.protobuf.StringValue); // Returns SKU
+    rpc updateProduct(Product) returns (Product);
+    rpc removeProduct(google.protobuf.StringValue) returns (ProductList); // Returns updated product list
+    rpc listAvailableProducts(google.protobuf.Empty) returns (ProductList);
+
+    // Customer operations
+    rpc createUser(User) returns (User);
+    rpc searchProduct(google.protobuf.StringValue) returns (Product); // Returns product details
+    rpc addToCart(CartItem) returns (google.protobuf.StringValue); // Returns confirmation
+    rpc placeOrder(Order) returns (google.protobuf.StringValue); // Returns order confirmation
+}
