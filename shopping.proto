@@ -3,7 +3,7 @@ syntax = "proto3";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 
-// Message definitions for products and user
+// Message definitions for products and users
 message Product {
     string name = 1;
     string description = 2;
